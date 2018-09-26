@@ -1,0 +1,12 @@
+{
+    "name": "rickyfun/lets-beast",
+    "description": "...",
+    "type": "composer-plugin",
+    "authors": [
+        {
+            "name": "rickyfun",
+            "email": "r.huang850@gmail.com"
+        }
+    ],
+    "require": {}
+}
