@@ -1,12 +1,40 @@
 {
     "name": "rickyfun/lets-beast",
     "description": "...",
-    "type": "composer-plugin",
     "authors": [
         {
             "name": "rickyfun",
             "email": "r.huang850@gmail.com"
         }
     ],
-    "require": {}
+
+    "autoload": {
+        "psr-4": {
+            "Rickyfun\\LetsBeast\\": "src/"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "Rickyfun\\LetsBeast\\Tests\\": "tests/"
+        }
+    },
+
+    "require": {
+        "php": ">=7",
+        "illuminate/console": "5.*"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "~6.0",
+        "orchestra/testbench": "^3.5"
+    },
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rickyfun\\LetsBeast\\LetsBeastProvider"
+            ]
+        }
+    }
 }
