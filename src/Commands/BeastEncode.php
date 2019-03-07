@@ -11,12 +11,12 @@ class BeastEncode extends Command
     /**
      * @var string
      */
-    protected $signature = 'beast:encode {--file=} {--folder=}';
+    protected $signature = 'beast:encode {target}';
 
     /**
      * @var string
      */
-    protected $description = '...';
+    protected $description = 'Encode files';
 
     private $basePath;
 
@@ -34,32 +34,27 @@ class BeastEncode extends Command
     {
         $this->beastService->validateLoaded();
 
-        $fileValue = $this->option('file');
-        $folderValue = $this->option('folder');
-        $hasFile = is_null($fileValue) ? false : true;
-        $hasFolder = is_null($folderValue) ? false : true;
+        $target = $this->argument('target');
+        $absTarget = $this->basePath . '/' . $target;
+        $isFile = is_file($absTarget);
+        $isDir  = is_dir($absTarget);
 
-        if ($hasFile && $hasFolder) {
-            $this->error('Does not support file and folder together');
+        if (!$isFile && !$isDir) {
+            $this->error($absTarget . "  ==> Target not found.");
             return;
         }
 
-        // file
-        if ($hasFile) {
-            $fileRealPath = $this->basePath . '/'. $fileValue;
-            $this->beastService->encodeFile($fileRealPath, $fileRealPath, 0, $this->beastService->typeDefine('AES'));
-        }
+        $encodeType = $this->beastService->typeDefine('AES');
+        switch (true) {
+            case ($isFile):
+            $this->beastService->encodeFile($absTarget, $absTarget, 0, $encodeType);
+            break;
 
-        // folder
-        if ($hasFolder) {
-            $dirRealPath = $this->basePath . '/' . $folderValue;
-            $this->beastService->calculate_directory_schedule($dirRealPath);
-            $this->beastService->encrypt_directory($dirRealPath, $dirRealPath, 0, $this->beastService->typeDefine('AES'));
-        }
+            case ($isDir):
+            $this->beastService->calculate_directory_schedule($absTarget);
+            $this->beastService->encrypt_directory($absTarget, $absTarget, 0, $encodeType);
 
-        // no input
-        if ((!$hasFile) && (!$hasFolder)) {
-            // todo default encode
+            default: break;
         }
     }
 }

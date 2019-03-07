@@ -102,7 +102,7 @@ class BeastService
 
                     $percent = intval($this->finish / $this->nfiles * 100);
 
-                    printf("\rProcessed encrypt files [%d%%] - 100%%", $percent);
+                    printf("\rProcessed encrypt files [%d%%] - 100%% \n", $percent);
 
                 } else {
                     copy($path, $new_path);
